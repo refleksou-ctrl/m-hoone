@@ -17,35 +17,78 @@
   /* ---- invented stock -------------------------------------- */
   var ARI = { B: "Büroo", K: "Kaubandus/Teenindus" };
 
+  /* The first 27 came first; the rest were added so every floor holds two or
+     three spaces. That's what lets the plan cut each floor into parts of
+     different sizes instead of lighting the whole plate every time. All
+     invented, sizes in whole square metres. */
   var PINNAD = [
-    { maja:"M3", korrus:1, ari:ARI.B, m2:103.0, tk:[15,20], hind:22, lisa:"Kõrged laed" },
-    { maja:"M3", korrus:1, ari:ARI.K, m2:248.5, tk:[20,30], hind:26, lisa:"Tänavatasand" },
-    { maja:"M3", korrus:2, ari:ARI.B, m2:186.0, tk:[24,32], hind:22, lisa:"Kõrged laed" },
-    { maja:"M3", korrus:3, ari:ARI.B, m2:342.0, tk:[45,60], hind:21, lisa:"Avatud plaan" },
-    { maja:"M4", korrus:1, ari:ARI.K, m2:164.0, tk:[12,18], hind:25, lisa:"Tänavatasand" },
-    { maja:"M4", korrus:2, ari:ARI.B, m2:105.0, tk:[15,20], hind:22, lisa:"Kõrged laed" },
-    { maja:"M4", korrus:2, ari:ARI.B, m2:229.0, tk:[28,38], hind:22, lisa:"Rõdu" },
-    { maja:"M4", korrus:3, ari:ARI.B, m2:311.5, tk:[40,55], hind:21, lisa:"Avatud plaan" },
-    { maja:"M5", korrus:1, ari:ARI.K, m2:132.0, tk:[8,14],  hind:27, lisa:"Tänavatasand" },
-    { maja:"M5", korrus:2, ari:ARI.B, m2:106.0, tk:[15,20], hind:22, lisa:"Kõrged laed" },
-    { maja:"M5", korrus:3, ari:ARI.B, m2:275.0, tk:[35,45], hind:22, lisa:"Katuseterrass" },
-    { maja:"M5", korrus:4, ari:ARI.B, m2:389.0, tk:[50,65], hind:20, lisa:"Avatud plaan" },
-    { maja:"M6", korrus:1, ari:ARI.K, m2:198.0, tk:[14,20], hind:26, lisa:"Tänavatasand" },
-    { maja:"M6", korrus:2, ari:ARI.B, m2:107.0, tk:[15,20], hind:22, lisa:"Kõrged laed" },
-    { maja:"M6", korrus:3, ari:ARI.B, m2:241.0, tk:[30,40], hind:22, lisa:"Rõdu" },
-    { maja:"M6", korrus:4, ari:ARI.B, m2:158.5, tk:[20,26], hind:23, lisa:"Kõrged laed" },
-    { maja:"M7", korrus:1, ari:ARI.K, m2:118.0, tk:[8,12],  hind:28, lisa:"Tänavatasand" },
-    { maja:"M7", korrus:2, ari:ARI.B, m2:264.0, tk:[34,44], hind:22, lisa:"Avatud plaan" },
-    { maja:"M7", korrus:3, ari:ARI.B, m2:108.0, tk:[15,20], hind:22, lisa:"Kõrged laed" },
-    { maja:"M7", korrus:4, ari:ARI.B, m2:352.0, tk:[46,60], hind:21, lisa:"Katuseterrass" },
-    { maja:"M7", korrus:5, ari:ARI.B, m2:295.0, tk:[38,50], hind:21, lisa:"Rõdu" },
-    { maja:"M8", korrus:1, ari:ARI.K, m2:176.0, tk:[12,18], hind:26, lisa:"Tänavatasand" },
-    { maja:"M8", korrus:2, ari:ARI.B, m2:213.0, tk:[26,36], hind:22, lisa:"Kõrged laed" },
-    { maja:"M8", korrus:3, ari:ARI.B, m2:109.0, tk:[15,20], hind:22, lisa:"Kõrged laed" },
-    { maja:"M8", korrus:4, ari:ARI.B, m2:328.0, tk:[42,56], hind:21, lisa:"Avatud plaan" },
-    { maja:"M8", korrus:5, ari:ARI.B, m2:144.0, tk:[18,24], hind:23, lisa:"Rõdu" },
-    { maja:"M8", korrus:6, ari:ARI.B, m2:367.0, tk:[48,62], hind:20, lisa:"Katuseterrass" }
+    { maja:"M3", korrus:1, ari:ARI.B, m2:103, tk:[15,20], hind:22, lisa:"Kõrged laed" },
+    { maja:"M3", korrus:1, ari:ARI.K, m2:248, tk:[20,30], hind:26, lisa:"Tänavatasand" },
+    { maja:"M3", korrus:2, ari:ARI.B, m2:186, tk:[24,32], hind:22, lisa:"Kõrged laed" },
+    { maja:"M3", korrus:2, ari:ARI.B, m2:123, tk:[16,21], hind:22, lisa:"Avatud plaan" },
+    { maja:"M3", korrus:3, ari:ARI.B, m2:342, tk:[45,60], hind:21, lisa:"Avatud plaan" },
+    { maja:"M3", korrus:3, ari:ARI.B, m2:212, tk:[27,36], hind:21, lisa:"Rõdu" },
+    { maja:"M3", korrus:3, ari:ARI.B, m2:144, tk:[18,24], hind:22, lisa:"Katuseterrass" },
+    { maja:"M4", korrus:1, ari:ARI.K, m2:164, tk:[12,18], hind:25, lisa:"Tänavatasand" },
+    { maja:"M4", korrus:1, ari:ARI.K, m2:62, tk:[8,11], hind:26, lisa:"Tänavatasand" },
+    { maja:"M4", korrus:2, ari:ARI.B, m2:105, tk:[15,20], hind:22, lisa:"Kõrged laed" },
+    { maja:"M4", korrus:2, ari:ARI.B, m2:229, tk:[28,38], hind:22, lisa:"Rõdu" },
+    { maja:"M4", korrus:3, ari:ARI.B, m2:312, tk:[40,55], hind:21, lisa:"Avatud plaan" },
+    { maja:"M4", korrus:3, ari:ARI.B, m2:193, tk:[25,33], hind:21, lisa:"Klaasfassaad" },
+    { maja:"M4", korrus:3, ari:ARI.B, m2:131, tk:[17,22], hind:22, lisa:"Kõrged laed" },
+    { maja:"M5", korrus:1, ari:ARI.K, m2:132, tk:[8,14], hind:27, lisa:"Tänavatasand" },
+    { maja:"M5", korrus:1, ari:ARI.K, m2:70, tk:[9,12], hind:28, lisa:"Tänavatasand" },
+    { maja:"M5", korrus:2, ari:ARI.B, m2:106, tk:[15,20], hind:22, lisa:"Kõrged laed" },
+    { maja:"M5", korrus:2, ari:ARI.B, m2:40, tk:[5,7], hind:23, lisa:"Avatud plaan" },
+    { maja:"M5", korrus:3, ari:ARI.B, m2:275, tk:[35,45], hind:22, lisa:"Katuseterrass" },
+    { maja:"M5", korrus:3, ari:ARI.B, m2:248, tk:[32,42], hind:22, lisa:"Rõdu" },
+    { maja:"M5", korrus:4, ari:ARI.B, m2:389, tk:[50,65], hind:20, lisa:"Avatud plaan" },
+    { maja:"M5", korrus:4, ari:ARI.B, m2:241, tk:[31,41], hind:20, lisa:"Katuseterrass" },
+    { maja:"M5", korrus:4, ari:ARI.B, m2:164, tk:[21,28], hind:21, lisa:"Nurgapind" },
+    { maja:"M6", korrus:1, ari:ARI.K, m2:198, tk:[14,20], hind:26, lisa:"Tänavatasand" },
+    { maja:"M6", korrus:1, ari:ARI.K, m2:105, tk:[13,18], hind:27, lisa:"Vaateaknad" },
+    { maja:"M6", korrus:2, ari:ARI.B, m2:107, tk:[15,20], hind:22, lisa:"Kõrged laed" },
+    { maja:"M6", korrus:2, ari:ARI.B, m2:40, tk:[5,7], hind:23, lisa:"Klaasfassaad" },
+    { maja:"M6", korrus:3, ari:ARI.B, m2:241, tk:[30,40], hind:22, lisa:"Rõdu" },
+    { maja:"M6", korrus:3, ari:ARI.B, m2:217, tk:[28,37], hind:22, lisa:"Kõrged laed" },
+    { maja:"M6", korrus:4, ari:ARI.B, m2:158, tk:[20,26], hind:23, lisa:"Kõrged laed" },
+    { maja:"M6", korrus:4, ari:ARI.B, m2:104, tk:[13,18], hind:23, lisa:"Avatud plaan" },
+    { maja:"M7", korrus:1, ari:ARI.K, m2:118, tk:[8,12], hind:28, lisa:"Tänavatasand" },
+    { maja:"M7", korrus:1, ari:ARI.K, m2:62, tk:[8,11], hind:29, lisa:"Eraldi sissepääs" },
+    { maja:"M7", korrus:2, ari:ARI.B, m2:264, tk:[34,44], hind:22, lisa:"Avatud plaan" },
+    { maja:"M7", korrus:2, ari:ARI.B, m2:100, tk:[13,17], hind:23, lisa:"Katuseterrass" },
+    { maja:"M7", korrus:3, ari:ARI.B, m2:108, tk:[15,20], hind:22, lisa:"Kõrged laed" },
+    { maja:"M7", korrus:3, ari:ARI.B, m2:97, tk:[12,16], hind:22, lisa:"Nurgapind" },
+    { maja:"M7", korrus:4, ari:ARI.B, m2:352, tk:[46,60], hind:21, lisa:"Katuseterrass" },
+    { maja:"M7", korrus:4, ari:ARI.B, m2:218, tk:[28,37], hind:21, lisa:"Klaasfassaad" },
+    { maja:"M7", korrus:4, ari:ARI.B, m2:148, tk:[19,25], hind:22, lisa:"Kõrged laed" },
+    { maja:"M7", korrus:5, ari:ARI.B, m2:295, tk:[38,50], hind:21, lisa:"Rõdu" },
+    { maja:"M7", korrus:5, ari:ARI.B, m2:156, tk:[20,27], hind:22, lisa:"Kõrged laed" },
+    { maja:"M8", korrus:1, ari:ARI.K, m2:176, tk:[12,18], hind:26, lisa:"Tänavatasand" },
+    { maja:"M8", korrus:1, ari:ARI.K, m2:67, tk:[9,11], hind:27, lisa:"Vaateaknad" },
+    { maja:"M8", korrus:2, ari:ARI.B, m2:213, tk:[26,36], hind:22, lisa:"Kõrged laed" },
+    { maja:"M8", korrus:2, ari:ARI.B, m2:192, tk:[25,32], hind:22, lisa:"Rõdu" },
+    { maja:"M8", korrus:3, ari:ARI.B, m2:109, tk:[15,20], hind:22, lisa:"Kõrged laed" },
+    { maja:"M8", korrus:3, ari:ARI.B, m2:72, tk:[9,12], hind:22, lisa:"Katuseterrass" },
+    { maja:"M8", korrus:4, ari:ARI.B, m2:328, tk:[42,56], hind:21, lisa:"Avatud plaan" },
+    { maja:"M8", korrus:4, ari:ARI.B, m2:204, tk:[26,34], hind:21, lisa:"Nurgapind" },
+    { maja:"M8", korrus:4, ari:ARI.B, m2:138, tk:[18,23], hind:22, lisa:"Klaasfassaad" },
+    { maja:"M8", korrus:5, ari:ARI.B, m2:144, tk:[18,24], hind:23, lisa:"Rõdu" },
+    { maja:"M8", korrus:5, ari:ARI.B, m2:54, tk:[7,9], hind:24, lisa:"Klaasfassaad" },
+    { maja:"M8", korrus:6, ari:ARI.B, m2:367, tk:[48,62], hind:20, lisa:"Katuseterrass" },
+    { maja:"M8", korrus:6, ari:ARI.B, m2:228, tk:[29,39], hind:20, lisa:"Kõrged laed" },
+    { maja:"M8", korrus:6, ari:ARI.B, m2:154, tk:[20,26], hind:21, lisa:"Avatud plaan" }
   ];
+
+  /* a stable unit code per space — M3-2.1 shape, as in Figma 1:61509 */
+  (function () {
+    var seen = {};
+    PINNAD.forEach(function (p) {
+      var k = p.maja + "-" + p.korrus;
+      seen[k] = (seen[k] || 0) + 1;
+      p.kood = k + "." + seen[k];
+    });
+  })();
 
   /* ---- current selection ----------------------------------- */
   var sel = { ari: [], suurus: null, tookohti: null, maja: null, korrus: null };
@@ -70,11 +113,12 @@
   }
 
   /* ---- rendering ------------------------------------------- */
-  var nf = function (n) { return n.toFixed(1).replace(".", ","); };
+  /* floor areas are shown as whole square metres */
+  var nf = function (n) { return String(Math.round(n)); };
 
   function card(p) {
     return '' +
-      '<article class="pind" tabindex="0">' +
+      '<article class="pind" tabindex="0" data-kood="' + p.kood + '">' +
         '<div class="pind__body">' +
           '<div class="pind__row"><span>' + p.maja + '</span><span>' + p.korrus + ' korrus</span></div>' +
           '<p class="pind__ari">' + p.ari + '</p>' +
@@ -82,7 +126,7 @@
           '<div class="pind__meta"><span>' + p.tk[0] + '-' + p.tk[1] + ' töökohta</span><span>' + p.lisa + '</span></div>' +
           '<p class="pind__hind">al ' + p.hind + '€/m<sup>2</sup></p>' +
         '</div>' +
-        '<button class="nupp nupp--outline pind__btn" type="button">' +
+        '<button class="nupp nupp--outline pind__btn" type="button" data-vaata="' + p.kood + '">' +
           '<svg class="nupp__arrow" aria-hidden="true"><use href="#ic-nool"/></svg>Vaata plaani' +
         '</button>' +
       '</article>';
@@ -207,4 +251,8 @@
   });
 
   render();
+
+  /* the detail view needs the same records — one source, no copy */
+  window.TK_PINNAD = PINNAD;
+  window.TK_nf = nf;
 })();

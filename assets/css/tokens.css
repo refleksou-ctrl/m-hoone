@@ -103,9 +103,13 @@
   --font-display: "Stolzl", system-ui, -apple-system, sans-serif;
 
   /* Figma text styles, verbatim */
-  --fs-h2:      100px;  --ls-h2: -3px;   --lh-h2: 1.1;   /* M-hoone H2 */
-  --fs-h1:       48px;  --ls-h1: -2px;   --lh-h1: 1.1;   /* M-hoone H1 */
-  --fs-h3:       32px;  --ls-h3: -2px;   --lh-h3: 1.1;   /* M-hoone H3 */
+  /* Figma states the tracking on these three as a PERCENTAGE, not pixels —
+     M-hoone H1 and H3 are -2%, H2 is -3%. They were px here, which made the
+     headings about twice as tight as the file. -0.02em is the same number
+     Figma means, and it keeps up when the size changes at small widths. */
+  --fs-h2:      100px;  --ls-h2: -0.03em;  --lh-h2: 1.1;   /* M-hoone H2 */
+  --fs-h1:       48px;  --ls-h1: -0.02em;  --lh-h1: 1.1;   /* M-hoone H1 */
+  --fs-h3:       32px;  --ls-h3: -0.02em;  --lh-h3: 1.1;   /* M-hoone H3 */
   --fs-menu:     18px;  --lh-menu: 24px;                 /* Menüü */
   --fs-b1:       16px;  --lh-b1: 1.4;
   --fs-b2:       14px;  --lh-b2: 1.2;
@@ -136,4 +140,4 @@
 }
 
 @media (max-width: 1200px) { :root { --gutter: 48px; } }
-@media (max-width: 700px)  { :root { --gutter: 20px; --fs-h2: 52px; --ls-h2: -1.5px; --fs-h1: 32px; --ls-h1: -1px; --fs-h3: 24px; } }
+@media (max-width: 700px)  { :root { --gutter: 20px; --fs-h2: 52px; --fs-h1: 32px; --fs-h3: 24px; } }

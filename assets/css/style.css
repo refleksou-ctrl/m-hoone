@@ -395,7 +395,15 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 
 .contact__person { margin-top: 124px; width: 291px; font-size: var(--fs-b1); line-height: var(--lh-b1); }
 .contact__name { font-size: var(--fs-b1); }
-.contact__role { color: #828282; margin-bottom: var(--lh-b1); }
+.contact__role {
+  color: #828282;
+  /* Figma 1:348 puts one empty line between the role and the phone number,
+     so the gap is exactly one line box: 16px x 1.4 = 22.4px. (This used to
+     read `margin-bottom: var(--lh-b1)` — a unitless 1.4, which is not a
+     length, so the browser dropped the whole declaration and the gap
+     vanished.) */
+  margin-bottom: calc(var(--fs-b1) * var(--lh-b1));
+}
 .contact__line a { transition: color var(--dur-fast) var(--ease); }
 .contact__line a:hover { color: var(--c-orange); }
 
@@ -990,7 +998,7 @@ sup { font-size: 0.645em; vertical-align: super; line-height: 0; }
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
-  align-items: center;
+  align-items: flex-start;   /* the button lines up with the text, not centred */
   width: auto;
   min-height: 333px;
   padding: var(--sp-6);
@@ -1108,3 +1116,243 @@ sup { font-size: 0.645em; vertical-align: super; line-height: 0; }
 .tab.is-active .tab__mark { opacity: 1; }
 .tab.is-active { color: var(--c-black); }
 
+
+/* ============================================================
+   3D VAADE (Figma 1:27552)
+   The 8.4MB SVG export is one 3200x2263 JPEG plus 15 paths, so the
+   render ships as a JPG and only the two building outlines are kept
+   live. Hovering tints the building and raises a tooltip on a leader.
+   ============================================================ */
+
+.hot3d { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.h3 { cursor: pointer; }
+
+.h3 path {
+  fill: var(--c-orange);
+  fill-opacity: 0;
+  transition: fill-opacity var(--dur) var(--ease);
+}
+
+/* 0.8 is the value on the baked-in state in the export */
+.h3:hover path,
+.h3.is-on path { fill-opacity: 0.8; }
+
+.tip3d {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+  pointer-events: none;
+}
+
+.tip3d.is-on { opacity: 1; }
+
+.tip3d__box {
+  padding: 16px 20px;
+  background: var(--c-white);
+  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.2));
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+  color: var(--c-black);
+  white-space: nowrap;
+}
+
+/* the 4x32 white bar hanging from the box down onto the roof */
+.tip3d__leader { width: 4px; height: 32px; background: var(--c-white); }
+
+@media (max-width: 900px) {
+  .tip3d__box { padding: 10px 14px; font-size: var(--fs-b1); line-height: var(--lh-b1); letter-spacing: 0; }
+  .tip3d__leader { height: 20px; }
+}
+
+/* ============================================================
+   DETAILVAADE (Figma 1:61366) — opened by "Vaata plaani"
+   ============================================================ */
+
+.detail { background: var(--c-lightgrey); padding-block: 96px 64px; }
+
+.detail__grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 0;
+  padding-inline: 142px;
+  align-items: start;
+}
+
+.detail__side { display: flex; flex-direction: column; gap: var(--sp-8); align-items: flex-start; }
+
+/* --- back link (1:61407) ----------------------------------- */
+
+.tagasi {
+  display: inline-flex;
+  align-items: center;
+  gap: 8.5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-black);
+  font-family: var(--font-body);
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.tagasi__arrow { flex: none; width: 18px; height: 18px; transform: rotate(180deg); transition: transform var(--dur) var(--ease-out); }
+.tagasi:hover { color: var(--c-orange); }
+.tagasi:hover .tagasi__arrow { transform: rotate(180deg) translateX(4px); }
+
+/* --- spec list (1:61417) ------------------------------------ */
+
+.spec { display: flex; flex-direction: column; gap: var(--sp-6); width: 252px; }
+
+/* floor number, in oranži hover rather than the base orange */
+.spec__korrus {
+  position: relative;
+  align-self: flex-start;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+  color: var(--c-orange-hover);
+}
+
+/* Figma 8:39409 "Rectangle 5" — the same highlight bar the headings use
+   elsewhere, in white. Invisible while this section was white. */
+.spec__korrus::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 3px;
+  width: 79px;
+  height: 24px;
+  background: var(--c-white);
+}
+.spec__korrus > span { position: relative; }
+
+.spec__row { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-4); }
+.spec__row--wide .spec__cell { flex: 1; }
+.spec__cell { display: flex; flex-direction: column; gap: var(--sp-4); flex: 1 0 0; min-width: 0; }
+
+.spec__label { font-size: var(--fs-b3); line-height: var(--lh-b3); color: var(--c-orange); }
+
+.spec__value {
+  overflow-wrap: break-word;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+  color: var(--c-black);
+}
+
+.spec__note { font-size: var(--fs-b3); line-height: var(--lh-b3); color: var(--c-black); }
+
+.spec__cta { text-transform: uppercase; }
+
+/* --- mini locator (1:61453) --------------------------------- */
+
+.locator { width: 280px; }
+.locator img { width: 100%; height: auto; }
+
+/* --- floor plan (6:30120) -----------------------------------
+   The stage is Figma's own 777x659 box, so the plan drawing, the unit
+   outline and the label card all sit at the coordinates from the file.
+   The compass is no longer part of it — it hangs off the column instead. */
+
+.detail__main { position: relative; min-width: 0; }
+
+.detail__plan {
+  position: relative;
+  width: 100%;
+  max-width: 777px;
+  aspect-ratio: 777 / 659;
+}
+
+.plaan__img,
+.plaan__units {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.plaan__img { object-fit: contain; }
+
+/* the unit outline — oranži hover, per Figma */
+.pu {
+  fill: var(--c-orange-hover);
+  fill-opacity: 0;
+  transition: fill-opacity var(--dur) var(--ease);
+}
+.pu.is-on { fill-opacity: 1; }
+
+/* label card + leader (1:61507) */
+.plaan__tip {
+  position: absolute;
+  left: 11.97%;              /* 93 / 777 */
+  top: 4.86%;                /* 32 / 659 */
+  width: 26.77%;             /* 208 / 777 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.plaan__tip-box {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: 100%;
+  padding: 16px;
+  background: var(--c-white);
+  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.2));
+}
+
+.plaan__tip-kood {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+}
+
+.plaan__tip-m2 { font-size: var(--fs-b1); line-height: var(--lh-b1); }
+
+.plaan__tip-leader { width: 4px; height: 32px; background: var(--c-white); }
+
+/* the plan's own N-S compass (6:30098). Deliberately NOT the same
+   orientation as the minimap's — the floor plan is drawn to a different
+   north, so the two compasses are independent. It sits at the top now, and
+   is pinned to the right of the whole column rather than to the drawing. */
+.plaan__ilmakaar {
+  position: absolute;
+  top: 55px;
+  right: 8px;
+  width: 55px;
+  height: auto;
+  overflow: visible;
+}
+
+@media (max-width: 1200px) {
+  .detail__grid { padding-inline: var(--gutter); }
+}
+
+@media (max-width: 900px) {
+  .detail__grid { grid-template-columns: 1fr; gap: var(--sp-7); }
+  .plaan__tip { width: 60%; }
+  .plaan__tip-box { gap: var(--sp-5); }
+  .plaan__tip-kood { font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--ls-h3); }
+  .spec, .locator { width: 100%; max-width: 320px; }
+}
+
+/* --- minimap (Figma 1:61453) -------------------------------
+   Inlined so the highlight can follow the open unit. Orange marks
+   the building; the darker band marks the space inside it. */
+
+.minimap { width: 100%; height: auto; display: block; }
+
+.mm__b { fill: #D9D9D9; transition: fill var(--dur) var(--ease); }
+.mm__b.is-on { fill: var(--c-orange); }
+
+.mm__unit { transition: opacity var(--dur) var(--ease); }
