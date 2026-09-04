@@ -1,0 +1,1110 @@
+/* ============================================================
+   Telliskivi M-hoone — prototype styles
+   Layout values taken from the Figma frames at 1440px.
+   Below 1200px the layout is an adaptation, not designed.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* An explicit display value beats the UA's [hidden]{display:none}, which
+   silently un-hides anything toggled with the hidden attribute. */
+[hidden] { display: none !important; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+  color: var(--c-text);
+  background: var(--c-white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+
+h1, h2, h3 { margin: 0; font-weight: 400; }
+
+.h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1); }
+.h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--ls-h2); }
+.h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--ls-h3); }
+
+.wrap { max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* Figma is a fixed 1440 canvas. Sections keep their background full-bleed and
+   put content on this, so the absolute placements below are the Figma numbers
+   verbatim rather than percentages that drift. */
+.canvas { position: relative; max-width: var(--container); margin-inline: auto; }
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.hdr {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 130px;
+  color: var(--c-white);
+  pointer-events: none;
+}
+
+.hdr > * { pointer-events: auto; }
+
+/* light variant — header sits on a pale page instead of a photo */
+.hdr--light { color: var(--c-black); }
+
+.hdr__lang {
+  position: absolute;
+  top: 22px;
+  right: 40px;
+  z-index: 3;
+  font-size: var(--fs-b3);
+  line-height: var(--lh-b3);
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.hdr__lang:hover { opacity: 1; }
+
+.hdr__lang-bar {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 24px;
+  height: 4px;
+  background: var(--c-orange);
+}
+
+/* --- marquee ticker (logo_scroll.svg) -----------------------
+   The exported strip is dark-red TELLISKIVI on an orange band.
+   ticker-tile.svg is that artwork cropped to exactly one repeat
+   period (7 words x 205.124px = 1435.87px), so repeat-x tiles it
+   with no seam. The track is one tile wider than the viewport and
+   translates by exactly one tile — composited, no repaint. */
+
+.ticker {
+  position: absolute;
+  top: 66px;
+  left: 0;
+  right: 0;
+  height: var(--ticker-h);
+  overflow: hidden;
+  z-index: 1;
+  background: var(--c-orange);
+}
+
+.ticker__track {
+  height: var(--ticker-h);
+  width: calc(100% + 1436px);
+  background: url("../img/ticker-tile.svg") repeat-x left center;
+  background-size: 1435.87px var(--ticker-h);
+  animation: ticker-scroll 24s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-1435.87px, 0, 0); }
+}
+
+.ticker:hover .ticker__track { animation-play-state: paused; }
+
+/* --- logo lockup (sits ON TOP of the ticker, interrupting it) --- */
+
+.hdr__logo {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  /* Figma centres the M mark on the canvas and lets "hoone" hang to the
+     right, so the exported lockup sits 36px right of centre — not centred
+     itself. (1:388 puts the mark at 50%-98px, spanning 547..894 of 1440.) */
+  transform: translateX(calc(-50% + 36px));
+  z-index: 2;
+  display: block;
+  height: 98px;
+}
+
+.hdr__logo-svg { height: 98px; width: auto; display: block; color: inherit; }
+
+/* The logo takes the header's colour. One dial for the dark pages: */
+.page--light .hdr { color: var(--c-logo-dark); }
+
+/* --- menu box ---------------------------------------------- */
+
+.hdr__menu {
+  position: absolute;
+  top: 66px;
+  right: 37px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-7);
+  height: var(--menu-h);
+  padding-left: var(--sp-8);
+  padding-right: var(--sp-6);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hdr__menu-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-white);
+  font: inherit;
+  font-size: var(--fs-b1);
+  cursor: pointer;
+}
+
+.hdr__menu-label { transition: opacity var(--dur-fast) var(--ease); }
+.hdr__menu-btn:hover .hdr__menu-label { opacity: 0.75; }
+
+.hdr__burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 24px;
+  height: 24px;
+}
+
+.hdr__burger i {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--c-orange);
+  transition: transform var(--dur) var(--ease), opacity var(--dur-fast) var(--ease);
+}
+
+/* Figma keeps the three bars in the open state — no X. The open menu
+   is signalled by the panel itself; the bars just brighten slightly. */
+.hdr__menu-btn[aria-expanded="true"] .hdr__burger i { background: var(--c-white); }
+
+/* --- open menu (Figma 1:399) --------------------------------
+   A second blurred panel that drops below the menu bar. Its right
+   edge is inset 224px, so it sits under "Menüü" and clear of the
+   orange button — same as the design. */
+
+.menu-drop {
+  position: absolute;
+  top: 138px;
+  right: 224px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  padding: var(--sp-5) var(--sp-6) var(--sp-5) var(--sp-8);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--c-white);
+
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.menu-drop.is-open { opacity: 1; transform: none; pointer-events: auto; }
+
+.menu-drop a {
+  position: relative;
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+  white-space: nowrap;
+  color: var(--c-white);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.menu-drop a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -3px;
+  width: 100%; height: 1px;
+  background: var(--c-orange);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.menu-drop a:hover { color: var(--c-orange); }
+.menu-drop a:hover::after { transform: scaleX(1); transform-origin: left; }
+.menu-drop a[aria-current="page"] { color: var(--c-orange); }
+
+/* ============================================================
+   BUTTONS — audited against Figma "Tükid" (1:66082), which carries
+   the default AND hover state for every button in the design.
+
+   The designed hover on every arrow button is the same move:
+     background  -> Helehall #F0F0F0   (orange -> oranži hover #E74219)
+     padding-left 16 -> 20, gap 16 -> 12
+   Net box width is unchanged: only the arrow slides 4px toward the
+   label. Implemented as a transform on the arrow so nothing reflows.
+   ============================================================ */
+
+.nupp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border: 0;
+  background: transparent;
+  color: var(--c-black);
+  font-family: var(--font-body);
+  font-size: var(--fs-menu);
+  line-height: var(--lh-menu);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.nupp__arrow {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.nupp:hover { background: var(--c-lightgrey); }
+.nupp:hover .nupp__arrow { transform: translateX(4px); }
+
+.nupp:focus-visible { outline: 2px solid var(--c-orange); outline-offset: 2px; }
+
+/* Nupp_small, orange fill — Figma 1:66098 / 1:66108. Label is BLACK. */
+.nupp--orange { background: var(--c-orange); }
+.nupp--orange:hover { background: var(--c-orange-hover); }
+
+/* Nupp_small, 2px outline — used for PLAANID JA ÜÜRIINFO (1:100, 1:551) */
+.nupp--outline { border: 2px solid var(--c-black); padding: var(--sp-4) var(--sp-5) var(--sp-4) var(--sp-4); }
+
+/* Saada — translucent white (1:702) */
+.nupp--soft { background: rgba(255, 255, 255, 0.8); }
+
+/* Round arrow button, carousel + map (1:66146 / 1:66158) */
+.nupp-round { padding: var(--sp-4); gap: 0; }
+.nupp-round--back { transform: rotate(180deg); }
+
+/* Väike nupp — 14px label + small down arrow (1:66162 / 1:66167) */
+.nupp-sm {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-black);
+  font-family: var(--font-body);
+  font-size: var(--fs-b2);
+  line-height: var(--lh-b2);
+  cursor: pointer;
+}
+.nupp-sm__arrow { flex: none; width: 12px; height: 13px; margin-top: 2px; transition: transform var(--dur) var(--ease-out); }
+.nupp-sm:hover .nupp-sm__arrow { transform: translateY(3px); }
+
+/* Header / card CTA pill — a different family: Stolzl Medium, WHITE
+   label, px32 py6 (1:397, 1:504, 1:497). Not a Nupp_small. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  font: inherit;
+  border: 0;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease);
+}
+
+.btn--orange {
+  padding: 6px var(--sp-6);
+  background: var(--c-orange);
+  color: var(--c-white);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-stolzl-h3);
+  line-height: var(--lh-stolzl-h3);
+}
+.btn--orange:hover { background: var(--c-orange-hover); }
+
+/* ============================================================
+   ZIGZAG MOTIF — the designer's own paths (zigzag-large.svg /
+   contactform_m.svg), inlined so they can still draw themselves on.
+   Both are a 10px #FC4C02 stroke; only the scale differs.
+   ============================================================ */
+
+.zigzag {
+  fill: none;
+  stroke: var(--c-orange);
+  stroke-width: 10;
+  overflow: visible;
+}
+
+.zigzag path {
+  stroke-dashoffset: var(--zz-len);
+  stroke-dasharray: var(--zz-len);
+  transition: stroke-dashoffset 1000ms var(--ease-out);
+}
+.zigzag.is-visible path { stroke-dashoffset: 0; }
+
+/* Figma 1:74 — 494x123.5 box, art overflows it by the stroke, so the
+   SVG is 502x138 sitting 3.56px left and 7.07px above the box. */
+.zigzag--divider {
+  --zz-len: 720;
+  position: absolute;
+  left: 469.44px;
+  top: 428.93px;
+  width: 502px;
+  height: 138px;
+  z-index: 2;
+}
+
+/* Figma 1:708 — 212x53 box at 76,261; SVG is 220x68 offset likewise. */
+.zigzag--contact {
+  --zz-len: 310;
+  position: absolute;
+  left: 72.46px;
+  top: 253.93px;
+  width: 220px;
+  height: 68px;
+}
+
+/* ============================================================
+   CONTACT (Figma 1:687) — heading at x142, form at x720 w448
+   ============================================================ */
+
+.contact { background: var(--c-white); }
+
+.contact .canvas { min-height: 615px; padding: 124px 272px 96px 142px; }
+
+.contact__inner {
+  display: grid;
+  grid-template-columns: 578px 448px;
+  align-items: start;
+}
+
+.contact__title { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1); }
+
+.contact__person { margin-top: 124px; width: 291px; font-size: var(--fs-b1); line-height: var(--lh-b1); }
+.contact__name { font-size: var(--fs-b1); }
+.contact__role { color: #828282; margin-bottom: var(--lh-b1); }
+.contact__line a { transition: color var(--dur-fast) var(--ease); }
+.contact__line a:hover { color: var(--c-orange); }
+
+.contact__form { display: flex; flex-direction: column; gap: var(--sp-5); width: 448px; }
+
+.ufield { display: block; }
+.ufield__label { display: block; font-size: var(--fs-b1); line-height: var(--lh-b1); color: var(--c-text); }
+
+.ufield__input {
+  width: 100%;
+  padding: var(--sp-2) 0;
+  border: 0;
+  border-bottom: 1px solid #CFCDC9;
+  background: transparent;
+  font: inherit;
+  transition: border-color var(--dur) var(--ease);
+}
+.ufield__input:focus { outline: none; border-bottom-color: var(--c-orange); }
+
+.contact__message {
+  width: 100%;
+  height: 136px;
+  padding: var(--sp-4);
+  border: 1px solid #CFCDC9;
+  background: transparent;
+  font: inherit;
+  resize: vertical;
+  transition: border-color var(--dur) var(--ease);
+}
+.contact__message:focus { outline: none; border-color: var(--c-orange); }
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  font-size: var(--fs-b2);
+  line-height: var(--lh-b2);
+  cursor: pointer;
+}
+.checkbox input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.checkbox__box {
+  flex: none;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #CFCDC9;
+  background: #CFCDC9;
+}
+.checkbox__box::after {
+  content: "";
+  position: absolute;
+  left: 8px; top: 8px;
+  width: 8px; height: 8px;
+  background: var(--c-orange);
+  transform: scale(0);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.checkbox input:checked + .checkbox__box::after { transform: scale(1); }
+.checkbox input:focus-visible + .checkbox__box { box-shadow: 0 0 0 3px rgba(252, 76, 2, 0.25); }
+.checkbox__text a { color: #828282; }
+
+.contact__form .nupp--soft { align-self: flex-start; }
+
+.contact__sent { font-size: var(--fs-b2); color: var(--c-orange); }
+
+/* ============================================================
+   JALUS (Figma 1:709) — CTA band + footer, both on Helehall
+   ============================================================ */
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 214px;
+  padding: var(--sp-5);
+  background: var(--c-lightgrey);
+  text-align: center;
+}
+
+.cta__text {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+  color: #111010;
+}
+
+.ftr { display: flex; justify-content: center; background: var(--c-lightgrey); }
+
+.ftr__inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  width: 912px;
+  height: 138px;
+  padding: var(--sp-5);
+  font-size: var(--fs-b2);
+  line-height: var(--lh-b2);
+  color: #111010;
+}
+
+.ftr__col a { transition: color var(--dur-fast) var(--ease); }
+.ftr__col a:hover { color: var(--c-orange); }
+.ftr__brand img { width: 250px; height: 32px; object-fit: contain; }
+.ftr__brand.is-missing { width: 250px; height: 32px; }
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+}
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* ============================================================
+   RESPONSIVE — adaptation, not designed
+   ============================================================ */
+
+@media (max-width: 1400px) {
+  .contact .canvas { padding-inline: var(--gutter); }
+  .contact__inner { grid-template-columns: minmax(0, 1fr) 448px; gap: var(--sp-7); }
+}
+
+@media (max-width: 1100px) {
+  .contact .canvas { padding-block: 96px; min-height: 0; }
+  .contact__inner { grid-template-columns: 1fr; gap: var(--sp-7); }
+  .contact__form { width: 100%; }
+  .zigzag--contact { position: static; margin-block: var(--sp-6); width: 220px; height: 68px; }
+  .contact__person { margin-top: var(--sp-6); }
+  .ftr__inner { width: 100%; height: auto; flex-wrap: wrap; align-items: flex-start; padding-inline: var(--gutter); }
+}
+
+/* --- mobile header: ticker on top, then logo left / actions right.
+       Not in Figma (desktop-only file) — this is an adaptation. --- */
+@media (max-width: 900px) {
+  .hdr { height: 104px; }
+  .ticker { top: 0; }
+  .hdr__lang, .hdr__lang-bar { display: none; }
+
+  .hdr__logo { left: var(--gutter); transform: none; top: 34px; height: 56px; }
+  .hdr__logo-svg { height: 56px; }
+
+  .hdr__menu {
+    top: 40px;
+    right: var(--gutter);
+    height: 48px;
+    gap: var(--sp-4);
+    padding-left: var(--sp-4);
+    padding-right: var(--sp-3);
+  }
+  .hdr__menu-label { display: none; }
+  .hdr__menu .btn--orange { padding: 6px var(--sp-4); font-size: var(--fs-b2); }
+
+  .cta { height: auto; padding-block: var(--sp-9); }
+  .ftr__inner { gap: var(--sp-5); padding-block: var(--sp-7); }
+}
+
+@media (max-width: 900px) {
+  .menu-drop { top: 96px; right: var(--gutter); gap: var(--sp-5); padding: var(--sp-5); }
+}
+
+@media (max-width: 420px) {
+  .hdr__logo-svg { height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  [data-reveal] { opacity: 1; transform: none; }
+  .ticker__track { animation: none; }
+}
+
+/* ============================================================
+   PAGE: index — HERO (Figma 1:21)
+   ============================================================ */
+
+.hero { position: relative; height: 720px; background: #2E2E2E; }
+
+.hero__media { position: absolute; inset: 0; overflow: hidden; }
+.hero__media img,
+.hero__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* The poster paints immediately; the video fades over it once it can
+   actually play, so there is never a flash of empty box. */
+.hero__video { opacity: 0; transition: opacity 600ms var(--ease); }
+.hero__video.is-playing { opacity: 1; }
+.hero__media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../img/hero-poster.jpg") center / cover no-repeat;
+}
+.hero__video { position: relative; z-index: 1; }
+
+/* Missing-asset marker: shows exactly which export is still needed.
+   Disappears on its own once the file exists. */
+.asset { position: relative; }
+.asset.is-missing { background: repeating-linear-gradient(45deg, #3a3a3a 0 14px, #333 14px 28px); }
+.asset.is-missing img { visibility: hidden; }
+.asset.is-missing::after {
+  content: "kohat\00E4ide \2192  assets/img/" attr(data-asset);
+  position: absolute;
+  left: 50%; top: auto; bottom: 32px;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  background: rgba(16,16,16,.72);
+  color: #fff;
+  font-size: var(--fs-b3);
+  letter-spacing: .02em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.asset img { position: relative; z-index: 1; }
+
+/* ============================================================
+   PAGE: index — INTRO (Figma 1:71)
+   ============================================================ */
+
+.intro {
+  position: relative;
+  background: var(--c-lightgrey);
+}
+
+.intro .canvas { min-height: 523px; padding-top: 141px; }
+
+.intro__grid {
+  padding-left: 147px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 566px;
+  gap: 51px;
+  align-items: start;
+}
+
+.intro__title { max-width: 676px; }
+.intro__body { max-width: 499px; margin-top: var(--sp-6); font-size: var(--fs-b1); line-height: var(--lh-b1); }
+
+.already { background: var(--c-lightgreen); padding: 34px var(--sp-5) var(--sp-5); min-height: 211px; }
+.already__title { margin-bottom: var(--sp-5); }
+.already__row { display: flex; gap: var(--sp-4); align-items: stretch; }
+
+.already__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  justify-content: center;
+  padding: var(--sp-4);
+  background: rgba(255, 255, 255, 0.5);
+  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.already__card:hover { background: rgba(255, 255, 255, 0.85); transform: translateY(-2px); }
+
+.already__card--wide { flex: 1 0 0; min-width: 0; }
+.already__num { white-space: nowrap; }
+.already__label { font-size: var(--fs-b2); line-height: var(--lh-b2); }
+
+/* ============================================================
+   PAGE: index — STATS (Figma 1:86)
+   ============================================================ */
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-8);
+  /* Figma declares px-260, but the auto-layout row measures 1019px against
+     a 920px content box — so in the file the row overflows its own padding
+     and simply centres. Reproduced by letting the padding yield. */
+  padding: 128px clamp(24px, calc((100vw - 1120px) / 2), 260px) 96px;
+  background: var(--c-white);
+}
+
+.stats__row {
+  display: flex;
+  gap: clamp(28px, 6.6vw, 96px);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: nowrap;
+}
+
+.stat { display: flex; flex-direction: column; gap: var(--sp-6); align-items: center; justify-content: center; }
+.stat__num { line-height: 1; white-space: nowrap; }
+.stat:nth-child(1) .stat__label { width: 148px; }
+.stat:nth-child(3) { width: 168px; }
+.stat:nth-child(4) .stat__label { width: 200px; }
+.stat__label { font-size: var(--fs-b1); line-height: var(--lh-b1); }
+
+/* light pages: header text and logo go dark, header sits in flow */
+.page--light .hdr { position: relative; }
+.page--light main { padding-top: 0; }
+
+@media (max-width: 1200px) {
+  .intro .canvas { min-height: 0; padding-bottom: 90px; }
+  .intro__grid { grid-template-columns: 1fr; padding-inline: var(--gutter); }
+  .already { max-width: 566px; }
+  .zigzag--divider { left: 50%; top: auto; bottom: -46px; transform: translateX(-50%); width: min(400px, 76vw); height: auto; }
+  .stats { padding-inline: var(--gutter); }
+  .stats__row { gap: var(--sp-8); }
+}
+
+@media (max-width: 1000px) {
+  .stats__row { flex-wrap: wrap; }
+  .stat { flex: 0 0 calc(50% - var(--sp-6)); }
+  .stat:nth-child(3) { width: auto; }
+}
+
+@media (max-width: 900px) {
+  .hero { height: 520px; }
+  .intro .canvas { padding-top: 120px; }
+  .stats { padding-block: 96px 72px; }
+  .stats__row { gap: var(--sp-7) var(--sp-6); }
+  .already__row { flex-wrap: wrap; }
+}
+
+/* ============================================================
+   PAGE: Hinnad ja plaanid
+   Figma 1:60050 (landing / empty state), 1:60202 (filter bar),
+   1:60341 (open dropdown), 1:60333 (tabs), 1:33289 (result cards)
+   ============================================================ */
+
+/* header sits inside the grey block on this page */
+.page--light .hdr { background: var(--c-lightgrey); }
+
+.find { background: var(--c-lightgrey); }
+
+.find__head { padding: 10px 142px; }
+
+/* --- filter bar (1:60202) ---------------------------------- */
+
+.filters { padding: 47px 142px; }
+
+.filters__row {
+  display: flex;
+  align-items: flex-start;      /* titles share a baseline */
+  justify-content: space-between;
+  gap: var(--sp-5);
+}
+
+.filter { display: flex; flex-direction: column; gap: var(--sp-4); align-items: flex-start; }
+
+/* One control height across the row. Figma is inconsistent here — chips are
+   h-35, the Korrus box and Otsi are h-38, the rest auto — which is what made
+   the row look ragged. 38px is the value the file uses most. */
+.chip, .field__box, .field__chev, .otsi { height: 38px; }
+
+.filter__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-stolzl-h3);
+  line-height: var(--lh-stolzl-h3);
+  white-space: nowrap;
+}
+
+/* Büroo / Kaubandus chips */
+.filter__chips { display: flex; gap: var(--sp-2); }
+
+.chip {
+  padding-inline: 13px;
+  border: 1px solid var(--c-black);
+  background: transparent;
+  color: var(--c-black);
+  font-family: var(--font-body);
+  font-size: var(--fs-b3);
+  line-height: var(--lh-b3);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+/* Selected is WHITE (Figma 1:33155) — the border stays black either way.
+   Hover therefore can't also be white, so it darkens against the grey bar. */
+.chip:hover { background: rgba(0, 0, 0, 0.05); }
+.chip.is-on { background: var(--c-white); }
+.chip.is-on:hover { background: var(--c-white); }
+
+/* select: label box + chevron box, borders collapsed (mr:-1px in Figma) */
+.field { position: relative; display: flex; }
+
+/* Label box and chevron box are two bordered halves of ONE control, so a
+   hover lights both and the chevron is part of the click target. */
+.field__control {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.field__box,
+.field__chev {
+  flex: none;               /* never let the row squeeze these */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 13px;
+  border: 1px solid var(--c-black);
+  background: transparent;
+  color: var(--c-black);
+  transition: background var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease);
+}
+
+.field__box {
+  margin-right: -1px;
+  font-family: var(--font-body);
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+  white-space: nowrap;
+}
+
+/* hover: both halves react — a shade darker than the bar, since white
+   now means "selected" */
+.field__control:hover .field__box,
+.field__control:hover .field__chev { background: rgba(0, 0, 0, 0.05); }
+
+.field__control:focus-visible { outline: 2px solid var(--c-orange); outline-offset: 2px; }
+
+.chev { flex: none; width: 8px; height: 8px; color: currentColor; }
+.chev use { stroke-width: 1; }
+
+/* selected: only the label half goes white (Figma 1:33174) — the chevron
+   half stays put, border unchanged on both */
+.field.is-set .field__box { background: var(--c-white); }
+.field.is-set .field__control:hover .field__box { background: var(--c-white); }
+
+/* open dropdown (1:60341) — sits flush under the field, borders collapsed */
+.dd {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  z-index: 20;
+  display: none;
+  flex-direction: column;
+  min-width: 144px;
+}
+.field.is-open .dd { display: flex; }
+
+.dd__opt {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: -1px;
+  border: 1px solid var(--c-black);
+  background: var(--c-white);
+  color: var(--c-black);
+  font-family: var(--font-body);
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease);
+}
+.dd__opt:hover { background: var(--c-lightgrey); }
+.dd__opt.is-on { background: var(--c-lightgrey); font-weight: 500; }
+
+sup { font-size: 0.645em; vertical-align: super; line-height: 0; }
+
+/* Otsi (1:60293) — orange, BLACK label, small arrow rotated right */
+/* Otsi and Tühjenda share one slot; a blank title keeps the column aligned
+   with the rest of the row, exactly as Figma does with a transparent label. */
+.filter--action .filter__title { visibility: hidden; }
+
+.otsi {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding-inline: 13px;
+  border: 0;
+  background: var(--c-orange);
+  color: var(--c-black);
+  font-family: var(--font-body);
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease);
+}
+.otsi:hover { background: var(--c-orange-hover); }
+.otsi__arrow { flex: none; width: 8px; height: 8px; transform: rotate(-90deg); transition: transform var(--dur) var(--ease-out); }
+.otsi:hover .otsi__arrow { transform: rotate(-90deg) translateY(3px); }
+
+/* Tühjenda filtrid (Figma 1:33241) — no box, X icon + label, gap 8.5 */
+.tyhjenda {
+  display: inline-flex;
+  align-items: center;
+  gap: 8.5px;
+  height: 38px;
+  padding: 0 80.84px 0 0;
+  border: 0;
+  background: none;
+  color: var(--c-black);
+  font-family: var(--font-body);
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.tyhjenda__icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25.5px;
+  height: 25.5px;
+}
+
+.x { flex: none; width: 18px; height: 18px; color: currentColor; }
+
+.tyhjenda:hover { color: var(--c-orange); }
+.tyhjenda:hover .x { transform: rotate(90deg); }
+.x { transition: transform var(--dur) var(--ease-out); }
+
+.tyhjenda:focus-visible { outline: 2px solid var(--c-orange); outline-offset: 2px; }
+
+/* --- tabs (1:60333) ---------------------------------------- */
+
+/* Map nav (Figma 4:3834) — grey band between the cards and the map. */
+.maptabs {
+  display: flex;
+  gap: var(--sp-7);
+  align-items: flex-start;
+  justify-content: center;
+  padding-block: 48px;
+  background: var(--c-lightgrey);
+}
+
+.tab {
+  position: relative;
+  padding-bottom: 12px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-stolzl-h3);
+  line-height: var(--lh-stolzl-h3);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease);
+}
+.tab:hover { color: var(--c-orange); }
+
+.tab__mark {
+  position: absolute;
+  left: 50%;
+  top: 23px;
+  transform: translateX(-50%);
+  width: 95px;
+  height: 26px;
+  fill: none;
+  stroke: var(--c-orange);
+  stroke-width: 10;
+  overflow: visible;
+}
+
+/* --- results (1:33287) -------------------------------------- */
+
+.results { background: var(--c-white); padding-block: 64px 96px; }
+.results:has(.pinnad:empty) { padding-block: 48px; }
+.results .canvas { padding-inline: 142px; }
+
+.results__count { margin-bottom: var(--sp-7); }
+
+/* "Tee valik, et näha vabasid pindasid" is M-hoone H3 (32), not H1 (48).
+   The result count "N sobivat pinda" stays at 48. */
+.results__count--empty {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+  margin-bottom: 0;
+}
+
+/* Always four across on desktop — the cards shrink rather than wrapping to
+   three when the window is under the 1440 the design assumes. */
+.pinnad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-5);
+  align-items: stretch;
+}
+
+/* card (1:33571) */
+.pind {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  align-items: center;
+  width: auto;
+  min-height: 333px;
+  padding: var(--sp-6);
+  background: var(--c-lightgrey);
+  border: 2px solid transparent;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+/* the orange-outlined card in Figma is the picked-out state */
+.pind:hover,
+.pind:focus-visible {
+  background: var(--c-white);
+  border-color: var(--c-orange);
+  outline: none;
+}
+
+.pind__body { width: 100%; }
+
+.pind__row {
+  display: flex;
+  justify-content: space-between;
+  padding-block: var(--sp-3);
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+}
+
+.pind__ari { padding: 14px 0 13px; font-size: var(--fs-b3); line-height: var(--lh-b3); }
+
+.pind__m2 {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding-block: var(--sp-3);
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+.pind__m2num { font-size: 32px; line-height: 1.1; }
+.pind__unit { font-size: var(--fs-b1); line-height: var(--lh-b1); }
+
+.pind__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding-block: var(--sp-1);
+  font-size: var(--fs-b3);
+  line-height: var(--lh-b3);
+}
+
+.pind__hind {
+  padding: var(--sp-5) 0 var(--sp-3);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-b1);
+  line-height: var(--lh-b1);
+}
+
+.pind__btn { margin-top: auto; }
+
+/* --- responsive (adaptation, not designed) ------------------ */
+
+@media (max-width: 1400px) {
+  .find__head, .filters { padding-inline: var(--gutter); }
+  .results .canvas { padding-inline: var(--gutter); }
+}
+
+@media (max-width: 1200px) {
+  .filters__row { flex-wrap: wrap; gap: var(--sp-5) var(--sp-6); }
+}
+
+@media (max-width: 1000px) { .pinnad { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px)  { .pinnad { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px)  { .pinnad { grid-template-columns: 1fr; } }
+
+@media (max-width: 900px) {
+  .filters { padding-block: var(--sp-7); }
+  .filters__row { flex-direction: column; align-items: stretch; }
+  .filter { width: 100%; }
+  .field, .field__control { width: 100%; }
+  .field__box { flex: 1; justify-content: flex-start; }
+  .dd { width: 100%; }
+  .otsi, .tyhjenda { width: 100%; justify-content: center; padding-right: 0; }
+  .filter--action .filter__title { display: none; }
+  .maptabs { gap: var(--sp-5); padding-block: var(--sp-7); flex-wrap: wrap; }
+}
+
+/* ============================================================
+   ASENDIPLAAN (Figma 1:33703)
+   The 13MB SVG export was 24,581 paths, almost all terrain, so the plan
+   ships as a 233KB JPG. The building hover was removed on 2026-09-04 —
+   `asendiplaan-hotspots.svg` is kept in assets/img/ in case it returns.
+   ============================================================ */
+
+.plan { background: var(--c-white); }
+
+.plan__stage {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  aspect-ratio: 1440 / 720;
+}
+
+.plan__map { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.plan__todo {
+  padding: var(--sp-9) var(--gutter);
+  text-align: center;
+  color: var(--c-text-muted);
+  font-size: var(--fs-b1);
+}
+
+/* tabs are buttons now, not links */
+.tab { border: 0; background: none; color: var(--c-black); cursor: pointer; font-family: var(--font-display); }
+.tab__mark { opacity: 0; transition: opacity var(--dur) var(--ease); }
+.tab.is-active .tab__mark { opacity: 1; }
+.tab.is-active { color: var(--c-black); }
+

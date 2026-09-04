@@ -1,0 +1,13 @@
+@font-face {
+	font-family: 'Atlas Grotesk Web';
+	src: url('AtlasGrotesk-RegularItalic-Web.woff2') format('woff2'),
+		 url('AtlasGrotesk-RegularItalic-Web.woff') format('woff');
+	font-weight: 400;
+	font-style: italic;
+	}
+
+.AtlasGrotesk-RegularItalic-Web {
+	font-family: 'Atlas Grotesk Web';
+	font-weight: 400;
+	font-style: italic;
+	}

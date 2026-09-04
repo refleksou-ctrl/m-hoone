@@ -1,0 +1,48 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Animation — TELLISKIVI header ticker</title>
+<!--
+  TELLISKIVI header marquee.
+  Used on: every page, inside .hdr (partials/header.html).
+
+  Artwork: logo_scroll.svg (this folder) is the designer's export — 2051px
+  wide, but the lettering stops at 1460, so two copies butted together leave
+  a 591px gap. The measured word pitch is 205.124px, so ../img/ticker-tile.svg
+  is that same artwork cropped to exactly 7 words = 1435.87px, which tiles
+  with no seam. Verified pixel-identical one cycle apart.
+
+  The track is one tile wider than the viewport and translates by exactly one
+  tile, so the transform is composited and nothing repaints.
+
+  Open this file directly to preview. Copy the whole block to reuse.
+-->
+<style>
+  .tk-ticker {
+    --tk-tile: 1435.87px;
+    --tk-h: 32px;
+    height: var(--tk-h);
+    overflow: hidden;
+    background: #FC4C02;
+  }
+  .tk-ticker__track {
+    height: var(--tk-h);
+    width: calc(100% + var(--tk-tile));
+    background: url("../img/ticker-tile.svg") repeat-x left center;
+    background-size: var(--tk-tile) var(--tk-h);
+    animation: tk-scroll 24s linear infinite;   /* ~60px/sec */
+  }
+  .tk-ticker:hover .tk-ticker__track { animation-play-state: paused; }
+
+  @keyframes tk-scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-1435.87px, 0, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) { .tk-ticker__track { animation: none; } }
+
+  body { margin: 0; background: #2E2E2E; padding: 40px 0; }
+</style>
+
+<div class="tk-ticker" aria-hidden="true">
+  <div class="tk-ticker__track"></div>
+</div>

@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="et">
+<head>
+  <!-- @head -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FC4C02">
+  <!-- Fonts are always fetched in CORS mode, so this preload needs crossorigin.
+       That means it fails when you open the file straight from Finder (file://)
+       and Chrome logs a warning — harmless, and it works correctly once the site
+       is served over http, which is how the client will see it. -->
+  <link rel="preload" href="assets/fonts/AtlasGrotesk-Regular-Web.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- /@head -->
+  <title>Hinnad ja plaanid | Telliskivi TLN</title>
+</head>
+<body class="page--light">
+
+  <!-- @sprite -->
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <!-- nool.svg, stroke switched to currentColor so it follows the button label -->
+    <symbol id="ic-nool" viewBox="0 0 22 22">
+      <path d="M0 11.0024H21.2067" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" fill="none"/>
+      <path d="M10.6033 0.367188L21.2637 11.0025L10.6033 21.6378" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" fill="none"/>
+    </symbol>
+    <!-- nool_small.svg — 9x9 down chevron -->
+    <symbol id="ic-nool-small" viewBox="0 0 9 9">
+      <path d="M4.22119 0L4.22119 7.71152" stroke="currentColor" stroke-miterlimit="10" fill="none"/>
+      <path d="M0.354004 3.85596L4.22139 7.73246L8.08878 3.85596" stroke="currentColor" stroke-miterlimit="10" fill="none"/>
+    </symbol>
+    <!-- clear-filters X (Figma 1:33245, 18x18) -->
+    <symbol id="ic-sulge" viewBox="0 0 18 18">
+      <path d="M1 1L17 17" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" fill="none"/>
+      <path d="M17 1L1 17" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" fill="none"/>
+    </symbol>
+  </svg>
+  <!-- /@sprite -->
+
+  <!-- @header -->
+  <header class="hdr" data-header>
+
+    <a class="hdr__lang" href="#" aria-label="Switch to English">ENGLISH</a>
+    <span class="hdr__lang-bar" aria-hidden="true"></span>
+
+    <!-- ticker — the exported strip (logo_scroll.svg), cropped to one
+         205.12px x 7 word period so it tiles seamlessly. -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track" data-ticker-track></div>
+    </div>
+
+    <!-- Logo is inlined so it can take its colour from the header:
+         white over the hero video, dark on the pale pages. One asset,
+         no light/dark pair to keep in sync. Source: m-hoone-logo.svg -->
+    <a class="hdr__logo" href="index.html" aria-label="M-hoone, Telliskivi">
+      <svg class="hdr__logo-svg" role="img" aria-label="M-hoone" width="419" height="98" viewBox="0 0 419 98" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M404.751 51.5759C396.495 51.5759 390.831 45.7199 390.831 37.8479C390.831 29.9279 396.543 24.0239 404.607 24.0239C413.343 24.0239 418.767 30.8879 418.095 39.5759H397.839C398.271 43.7999 401.151 45.9119 404.703 45.9119C407.343 45.9119 409.647 44.7119 410.559 42.5999H417.663C415.695 48.8399 410.415 51.5759 404.751 51.5759ZM398.175 34.5359H410.799C410.031 31.6559 407.871 29.6879 404.559 29.6879C401.199 29.6879 399.039 31.7039 398.175 34.5359Z" fill="currentColor"/>
+      <path d="M361.596 50.9999V24.5999H368.46V28.1999C370.38 25.5119 373.02 24.0239 376.668 24.0239C382.62 24.0239 386.22 27.9599 386.22 34.4399V50.9999H379.356V35.9279C379.356 32.4719 378.06 30.5519 374.412 30.5519C370.524 30.5519 368.46 32.8079 368.46 37.1279V50.9999H361.596Z" fill="currentColor"/>
+      <path d="M343.012 24.0239C350.644 24.0239 356.788 29.8319 356.788 37.7999C356.788 45.7679 350.74 51.5759 343.012 51.5759C335.332 51.5759 329.284 45.7199 329.284 37.7999C329.284 29.8319 335.428 24.0239 343.012 24.0239ZM343.012 30.5519C339.172 30.5519 336.196 33.4799 336.196 37.7999C336.196 42.1679 339.172 45.0479 343.012 45.0479C346.852 45.0479 349.828 42.1679 349.828 37.7999C349.828 33.4799 346.852 30.5519 343.012 30.5519Z" fill="currentColor"/>
+      <path d="M311.325 24.0239C318.957 24.0239 325.101 29.8319 325.101 37.7999C325.101 45.7679 319.053 51.5759 311.325 51.5759C303.645 51.5759 297.597 45.7199 297.597 37.7999C297.597 29.8319 303.741 24.0239 311.325 24.0239ZM311.325 30.5519C307.485 30.5519 304.509 33.4799 304.509 37.7999C304.509 42.1679 307.485 45.0479 311.325 45.0479C315.165 45.0479 318.141 42.1679 318.141 37.7999C318.141 33.4799 315.165 30.5519 311.325 30.5519Z" fill="currentColor"/>
+      <path d="M268.413 51V14.04H275.277V28.2C277.197 25.512 279.837 24.024 283.485 24.024C289.389 24.024 292.989 27.96 292.989 34.44V51H286.125V35.928C286.125 32.472 284.781 30.552 281.181 30.552C277.341 30.552 275.277 32.808 275.277 37.128V51H268.413Z" fill="currentColor"/>
+      <path d="M261.776 33.48V40.056H233.648V33.48H261.776Z" fill="currentColor"/>
+      <path d="M125 98V0H149L173 38L198 0H222V98L202 98V28L176 66L170 66L145.161 28L145 98L125 98Z" fill="currentColor"/>
+      </svg>
+    </a>
+
+    <div class="hdr__menu">
+      <button class="hdr__menu-btn" data-burger aria-expanded="false" aria-controls="site-nav">
+        <span class="hdr__menu-label">Men&uuml;&uuml;</span>
+        <span class="hdr__burger" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <a class="btn btn--orange" href="#kontakt">V&otilde;ta &uuml;hendust</a>
+    </div>
+
+    <!-- open menu — Figma 1:399. Blurred panel under the menu bar, right-inset 224px. -->
+    <nav class="menu-drop" id="site-nav" data-nav>
+      <a href="index.html" data-page="index">Tutvustus</a>
+      <a href="hinnad-ja-plaanid.html" data-page="hinnad-ja-plaanid" aria-current="page">Plaanid ja &uuml;&uuml;riinfo</a>
+      <a href="siseviimistlus.html" data-page="siseviimistlus">Siseviimistlus</a>
+      <a href="galerii.html" data-page="galerii">Galerii</a>
+      <a href="https://telliskivitln.ee" data-page="telliskivi">Telliskivi TLN</a>
+    </nav>
+
+  </header>
+  <!-- /@header -->
+
+  <main>
+
+    <!-- ===== FIND (Figma 1:60052) ===== -->
+    <section class="find">
+      <div class="canvas">
+
+        <div class="find__head">
+          <h1 class="h1">Leia endale sobiv pind</h1>
+        </div>
+
+        <form class="filters" data-filters>
+          <div class="filters__row">
+
+            <div class="filter">
+              <p class="filter__title">Minu &auml;ri on</p>
+              <div class="filter__chips">
+                <button class="chip" type="button" data-chip="B&uuml;roo" aria-pressed="false">B&uuml;roo</button>
+                <button class="chip" type="button" data-chip="Kaubandus/Teenindus" aria-pressed="false">Kaubandus/Teenindus</button>
+              </div>
+            </div>
+
+            <div class="filter">
+              <p class="filter__title">Suurus</p>
+          <div class="field" data-select="suurus">
+            <button class="field__control" type="button" data-toggle aria-expanded="false" aria-haspopup="listbox">
+              <span class="field__box"><span class="field__label" data-label>Vali suurus</span></span>
+              <span class="field__chev"><svg class="chev" aria-hidden="true"><use href="#ic-nool-small"/></svg></span>
+            </button>
+            <div class="dd" role="listbox">
+              <button class="dd__opt" type="button" data-opt="100-200">100-200 m<sup>2</sup></button>
+              <button class="dd__opt" type="button" data-opt="200-300">200-300 m<sup>2</sup></button>
+              <button class="dd__opt" type="button" data-opt="300-400">300-400 m<sup>2</sup></button>
+            </div>
+          </div>
+            </div>
+
+            <div class="filter">
+              <p class="filter__title">T&ouml;&ouml;kohti</p>
+          <div class="field" data-select="tookohti">
+            <button class="field__control" type="button" data-toggle aria-expanded="false" aria-haspopup="listbox">
+              <span class="field__box"><span class="field__label" data-label>Vali t&ouml;&ouml;kohad</span></span>
+              <span class="field__chev"><svg class="chev" aria-hidden="true"><use href="#ic-nool-small"/></svg></span>
+            </button>
+            <div class="dd" role="listbox">
+              <button class="dd__opt" type="button" data-opt="0-15">kuni 15</button>
+              <button class="dd__opt" type="button" data-opt="15-30">15-30</button>
+              <button class="dd__opt" type="button" data-opt="30-50">30-50</button>
+              <button class="dd__opt" type="button" data-opt="50-999">50+</button>
+            </div>
+          </div>
+            </div>
+
+            <div class="filter">
+              <p class="filter__title">Maja</p>
+          <div class="field" data-select="maja">
+            <button class="field__control" type="button" data-toggle aria-expanded="false" aria-haspopup="listbox">
+              <span class="field__box"><span class="field__label" data-label>Vali maja</span></span>
+              <span class="field__chev"><svg class="chev" aria-hidden="true"><use href="#ic-nool-small"/></svg></span>
+            </button>
+            <div class="dd" role="listbox">
+              <button class="dd__opt" type="button" data-opt="M3">M3</button>
+              <button class="dd__opt" type="button" data-opt="M4">M4</button>
+              <button class="dd__opt" type="button" data-opt="M5">M5</button>
+              <button class="dd__opt" type="button" data-opt="M6">M6</button>
+              <button class="dd__opt" type="button" data-opt="M7">M7</button>
+              <button class="dd__opt" type="button" data-opt="M8">M8</button>
+            </div>
+          </div>
+            </div>
+
+            <div class="filter">
+              <p class="filter__title">Korrus</p>
+          <div class="field" data-select="korrus">
+            <button class="field__control" type="button" data-toggle aria-expanded="false" aria-haspopup="listbox">
+              <span class="field__box"><span class="field__label" data-label>Vali korrus</span></span>
+              <span class="field__chev"><svg class="chev" aria-hidden="true"><use href="#ic-nool-small"/></svg></span>
+            </button>
+            <div class="dd" role="listbox">
+              <button class="dd__opt" type="button" data-opt="1">1</button>
+              <button class="dd__opt" type="button" data-opt="2">2</button>
+              <button class="dd__opt" type="button" data-opt="3">3</button>
+              <button class="dd__opt" type="button" data-opt="4">4</button>
+              <button class="dd__opt" type="button" data-opt="5">5</button>
+              <button class="dd__opt" type="button" data-opt="6">6</button>
+            </div>
+          </div>
+            </div>
+
+            <div class="filter filter--action">
+              <p class="filter__title" aria-hidden="true">&nbsp;</p>
+              <button class="otsi" type="submit" data-otsi>
+                Otsi
+                <svg class="otsi__arrow" aria-hidden="true"><use href="#ic-nool-small"/></svg>
+              </button>
+              <button class="tyhjenda" type="button" data-reset hidden>
+                <span class="tyhjenda__icon"><svg class="x" aria-hidden="true"><use href="#ic-sulge"/></svg></span>
+                T&uuml;hjenda filtrid
+              </button>
+            </div>
+
+          </div>
+        </form>
+
+
+      </div>
+    </section>
+
+    <!-- ===== RESULTS (Figma 1:33287) ===== -->
+    <section class="results">
+      <div class="canvas">
+        <h2 class="results__count h1" data-count>Tee valik, et n&auml;ha vabasid pindasid</h2>
+        <div class="pinnad" data-grid></div>
+      </div>
+    </section>
+
+
+    <!-- ===== MAP NAV (Figma 4:3834) — two tabs, and they switch the map,
+         not the page. Sits between the cards and the map. ===== -->
+    <nav class="maptabs">
+      <button class="tab is-active" type="button" data-tab="asendiplaan" aria-current="page">Asendiplaan
+            <svg class="tab__mark" viewBox="0 0 502 138" aria-hidden="true">
+              <path d="M3.53552 130.571L127.036 7.07129L250.536 130.571L374.036 7.07129L497.536 130.571"/>
+            </svg>
+      </button>
+      <button class="tab" type="button" data-tab="3d">3D vaade
+            <svg class="tab__mark" viewBox="0 0 502 138" aria-hidden="true">
+              <path d="M3.53552 130.571L127.036 7.07129L250.536 130.571L374.036 7.07129L497.536 130.571"/>
+            </svg>
+      </button>
+    </nav>
+
+    <!-- ===== MAP (Figma 1:33703) ===== -->
+    <section class="plan" data-view="asendiplaan">
+      <div class="plan__stage">
+        <img class="plan__map" src="assets/img/asendiplaan.jpg"
+             alt="Telliskivi linnaku asendiplaan" width="1440" height="720" loading="lazy">
+      </div>
+    </section>
+
+    <section class="plan" data-view="3d" hidden>
+      <div class="canvas">
+        <p class="plan__todo">3D vaade &mdash; ei ole veel valmis.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- @contact -->
+  <section class="contact" id="kontakt">
+    <div class="canvas">
+    <div class="contact__inner">
+
+      <div class="contact__left">
+        <h2 class="contact__title" data-reveal>Soovin saada<br>vabade pindade infot</h2>
+
+
+
+        <div class="contact__person" data-reveal data-reveal-delay="200">
+          <p class="contact__name">Katrina &Scaron;okman</p>
+          <p class="contact__role">&Uuml;&uuml;risuhete juht, juhatuse liige</p>
+          <p class="contact__line"><a href="tel:+3725166109">51 66 109</a></p>
+          <p class="contact__line"><a href="mailto:katrina@telliskivitln.ee">katrina@telliskivitln.ee</a></p>
+        </div>
+      </div>
+
+      <form class="contact__form" data-fake-submit data-reveal data-reveal-delay="120">
+        <label class="ufield">
+          <span class="ufield__label">Nimi</span>
+          <input class="ufield__input" type="text" name="nimi" required>
+        </label>
+
+        <label class="ufield">
+          <span class="ufield__label">E-post</span>
+          <input class="ufield__input" type="email" name="epost" required>
+        </label>
+
+        <label class="ufield">
+          <span class="ufield__label">Telefon</span>
+          <input class="ufield__input" type="tel" name="telefon">
+        </label>
+
+        <textarea class="contact__message" name="sonum" rows="5" aria-label="S&otilde;num"></textarea>
+
+        <label class="checkbox">
+          <input type="checkbox" required>
+          <span class="checkbox__box" aria-hidden="true"></span>
+          <span class="checkbox__text">Olen tutvunud Telliskivi TLN <a href="#">andmekaitsetingimustega</a></span>
+        </label>
+
+        <button class="nupp nupp--soft" type="submit">
+          <svg class="nupp__arrow" aria-hidden="true"><use href="#ic-nool"/></svg>
+          Saada
+        </button>
+
+        <p class="contact__sent" data-form-message hidden>Alt&auml;nan! V&otilde;tame teiega peagi &uuml;hendust.</p>
+      </form>
+
+      <svg class="zigzag zigzag--contact" viewBox="0 0 220 68" aria-hidden="true" data-reveal data-reveal-delay="120">
+        <path d="M3.53564 60.0713L56.5356 7.07129L109.536 60.0713L162.536 7.07129L215.536 60.0713"/>
+      </svg>
+    </div>
+  </section>
+  <!-- /@contact -->
+
+  <!-- @cta -->
+  <section class="cta">
+    <p class="cta__text" data-reveal>Too oma ettev&otilde;te Telliskivisse!</p>
+  </section>
+  <!-- /@cta -->
+
+  <!-- @footer -->
+  <footer class="ftr">
+    <div class="ftr__inner">
+      <div class="ftr__col">
+        <p>Telliskivi<br>TLN O&Uuml;</p>
+      </div>
+      <div class="ftr__col">
+        <p><a href="tel:+3725166109">+372 51 66 109</a><br><a href="mailto:info@telliskivitln.ee">info@telliskivitln.ee</a></p>
+      </div>
+      <div class="ftr__col">
+        <p>Telliskivi 60/2, 10412 Tallinn<br>I1-hoone, A-sissep&auml;&auml;s, 4. korrus</p>
+      </div>
+      <div class="ftr__brand">
+        <img src="assets/img/telliskivitlnfooterlogo.svg" alt="Telliskivi TLN" width="250" height="32">
+      </div>
+    </div>
+  </footer>
+  <!-- /@footer -->
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/pinnad.js"></script>
+  <script src="assets/js/asendiplaan.js"></script>
+</body>
+</html>

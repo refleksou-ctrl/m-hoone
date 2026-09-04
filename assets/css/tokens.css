@@ -1,0 +1,139 @@
+/* ============================================================
+   tokens.css — Telliskivi M-hoone
+   Values taken from Figma variables (file 0kVi6GIe6JrLiDVDbWFQjN).
+   Do not invent values here.
+   ============================================================ */
+
+/* --- fonts --------------------------------------------------
+   Atlas Grotesk and Stolzl are licensed. Drop the .woff2 files
+   into assets/fonts/ with these exact names and the whole site
+   switches to the real typefaces — nothing else to change.
+   Until then the browser falls through to the substitutes below.
+   ------------------------------------------------------------ */
+
+/* Files supplied 2026-09-04. Paths point at exactly what is in assets/fonts/.
+
+   All four Atlas cuts and Stolzl Medium are in. Regular arrived as .otf;
+   converted to .woff (65KB vs 155KB) and listed first, with the .otf as
+   the fallback so either file alone works. A .woff2 from the foundry's
+   Web kit would be ~45KB — see ASSETS.md. */
+
+@font-face {
+  font-family: "Atlas Grotesk";
+  src: url("../fonts/AtlasGrotesk-Regular-Web.woff") format("woff"),
+       url("../fonts/AtlasGrotesk-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Atlas Grotesk";
+  src: url("../fonts/AtlasGrotesk-RegularItalic-Web.woff2") format("woff2"),
+       url("../fonts/AtlasGrotesk-RegularItalic-Web.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Atlas Grotesk";
+  src: url("../fonts/AtlasGrotesk-Medium-Web.woff2") format("woff2"),
+       url("../fonts/AtlasGrotesk-Medium-Web.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Atlas Grotesk";
+  src: url("../fonts/AtlasGrotesk-MediumItalic-Web.woff2") format("woff2"),
+       url("../fonts/AtlasGrotesk-MediumItalic-Web.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Stolzl";
+  src: url("../fonts/StolzlMedium/font.woff2") format("woff2"),
+       url("../fonts/StolzlMedium/font.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Stolzl Display Medium — a separate cut for large sizes. Not referenced
+   yet; Figma names the family plainly "Stolzl". Say the word if the big
+   type should use this instead. */
+@font-face {
+  font-family: "Stolzl Display";
+  src: url("../fonts/StolzlDisplayMedium/font.woff2") format("woff2"),
+       url("../fonts/StolzlDisplayMedium/font.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* --- colour (Figma variables) ---------------------------- */
+  --c-orange:      #FC4C02;   /* Telliskivi ORANŽ */
+  --c-darkred:     #AF231C;   /* Telliskivi tumepunane */
+  --c-lightgreen:  #D0DEBB;   /* Telliskivi heleroheline */
+  --c-lightgrey:   #F0F0F0;   /* Helehall */
+
+  --c-black:       #101010;
+  --c-white:       #FFFFFF;
+  --c-text:        var(--c-black);
+  --c-text-muted:  #8A8A8A;
+  --c-border:      #DCDCDC;
+  --c-bg:          var(--c-white);
+
+  --c-orange-hover: #E74219;   /* Figma variable "oranži hover" */
+
+  /* Logo colour on the pale-header pages. The page's own near-black is
+     #101010, so #333 reads slightly softer than the text beside it.
+     One value, switches every pale-header page. */
+  --c-logo-dark: #333333;
+
+  /* --- type ------------------------------------------------
+     Both real now. The substitutes below stay in the stack only as a
+     safety net if a font file ever fails to load. */
+  --font-body:    "Atlas Grotesk", system-ui, -apple-system, sans-serif;
+  --font-display: "Stolzl", system-ui, -apple-system, sans-serif;
+
+  /* Figma text styles, verbatim */
+  --fs-h2:      100px;  --ls-h2: -3px;   --lh-h2: 1.1;   /* M-hoone H2 */
+  --fs-h1:       48px;  --ls-h1: -2px;   --lh-h1: 1.1;   /* M-hoone H1 */
+  --fs-h3:       32px;  --ls-h3: -2px;   --lh-h3: 1.1;   /* M-hoone H3 */
+  --fs-menu:     18px;  --lh-menu: 24px;                 /* Menüü */
+  --fs-b1:       16px;  --lh-b1: 1.4;
+  --fs-b2:       14px;  --lh-b2: 1.2;
+  --fs-b3:       12px;  --lh-b3: 1.2;
+
+  /* Stolzl display sizes */
+  --fs-stolzl-h1: 48px; --lh-stolzl-h1: 1.1;
+  --fs-stolzl-h3: 16px; --lh-stolzl-h3: 1.4;
+
+  /* --- space ----------------------------------------------- */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 24px;  --sp-6: 32px;  --sp-7: 48px;  --sp-8: 64px;
+  --sp-9: 96px;  --sp-10: 144px;
+
+  /* --- layout ---------------------------------------------- */
+  --container: 1440px;
+  --gutter:    120px;   /* Figma content inset on 1440 */
+  --ticker-h:  32px;
+  --menu-h:    64px;
+
+  /* --- motion ---------------------------------------------- */
+  --ease:     cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 150ms;
+  --dur:      250ms;
+  --dur-slow: 450ms;
+  --ticker-speed: 40s;
+}
+
+@media (max-width: 1200px) { :root { --gutter: 48px; } }
+@media (max-width: 700px)  { :root { --gutter: 20px; --fs-h2: 52px; --ls-h2: -1.5px; --fs-h1: 32px; --ls-h1: -1px; --fs-h3: 24px; } }
